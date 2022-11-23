@@ -14,7 +14,7 @@ class Item(models.Model):
     price = models.DecimalField(
         verbose_name="Стоимость",
         max_digits=10,
-        decimal_places=1,
+        decimal_places=0,
         validators=[MinValueValidator(0)]
     )
 
