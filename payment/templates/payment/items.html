@@ -2,6 +2,14 @@
 {% block title %}Buy items{% endblock title %}
 {% block content %}
      <div class="container">
+      <form>
+        <label class="form-label">First name</label>
+        <input type="text" class="form-control" onchange='firstname_eventForm(this.value)' required>
+        <label class="form-label">Last name</label>
+        <input type="text" class="form-control" onchange='lastname_eventForm(this.value)' required>
+        <label class="form-label">Address</label>
+        <input type="text" class="form-control" onchange='address_eventForm(this.value)' required>
+      </form>
       <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
           <h4 class="badge-pill badge-light mt-3 mb-3 p-2 text-center">Products</h4>
@@ -24,6 +32,9 @@
 let cart = [];
 let cartTotal = 0;
 let counter = 1;
+let customer_firstname = 'undefined';
+let customer_lastname = 'undefined';
+let customer_address = 'undefined';
 const cartDom = document.querySelector(".cart");
 const addtocartbtnDom = document.querySelectorAll('[data-action="add-to-cart"]');
 
@@ -35,7 +46,10 @@ addtocartbtnDom.forEach(addtocartbtnDom => {
       img: productDom.querySelector(".product-img").getAttribute("src"), 
       name: productDom.querySelector(".product-name").innerText,
       price: parseInt(productDom.querySelector(".product-price").innerText),
-      quantity: 1
+      quantity: 1,
+      customer_firstname: customer_firstname,
+      customer_lastname: customer_lastname,
+      customer_address: customer_address
    };
 
 const IsinCart = cart.filter(cartItem => cartItem.name === product.name).length > 0;
@@ -184,7 +198,15 @@ function checkOut() {
   .then((session) => {stripe.redirectToCheckout({ sessionId: session.sessionId })});
 
 }
-
+function firstname_eventForm(value) {
+  customer_firstname = value;
+}
+function lastname_eventForm(value) {
+  customer_lastname = value;
+}
+function address_eventForm(value) {
+  customer_address = value;
+}
 </script>  
 {% endblock script %}
   </body>

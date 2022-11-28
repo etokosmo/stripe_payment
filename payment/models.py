@@ -42,18 +42,18 @@ class Order(models.Model):
     customer_firstname = models.CharField(
         verbose_name="Имя",
         max_length=50,
-        default="No_name"  # TODO Add logic later
+        default="No_name"
     )
     customer_lastname = models.CharField(
         verbose_name="Фамилия",
         max_length=50,
-        default="No_lastname"  # TODO Add logic later
+        default="No_lastname"
     )
     customer_address = models.CharField(
         verbose_name="Адрес",
         max_length=100,
         db_index=True,
-        default="No_address"  # TODO Add logic later
+        default="No_address"
     )
     registrated_at = models.DateTimeField(
         verbose_name="Время регистрации заказа",

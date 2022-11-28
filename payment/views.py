@@ -54,6 +54,18 @@ def create_checkout_session(request, item_id=1):
             item_id = product.get('id')
             item_price = product.get('price')
             item_quantity = product.get('quantity')
+            customer_firstname = product.get('customer_firstname')
+            if customer_firstname:
+                order.customer_firstname = customer_firstname
+                order.save()
+            customer_lastname = product.get('customer_lastname')
+            if customer_lastname:
+                order.customer_lastname = customer_lastname
+                order.save()
+            customer_address = product.get('customer_address')
+            if customer_address:
+                order.customer_address = customer_address
+                order.save()
             if item_id is None or item_price is None or item_quantity is None:
                 order.delete()
                 HttpResponseServerError("Incorrect format")
