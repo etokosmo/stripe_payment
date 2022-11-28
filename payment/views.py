@@ -44,11 +44,10 @@ def create_checkout_session(request, item_id=1):
 
         order = Order.objects.create()
         for product in products:
-            try:
-                item_id = product.get('id')
-                item_price = product['price']
-                item_quantity = product['quantity']
-            except KeyError:
+            item_id = product.get('id')
+            item_price = product.get('price')
+            item_quantity = product.get('quantity')
+            if item_id is None or item_price is None or item_quantity is None:
                 order.delete()
                 HttpResponseServerError("Incorrect format")
             item = get_object_or_404(Item, id=item_id)
@@ -63,9 +62,9 @@ def create_checkout_session(request, item_id=1):
                     'price_data': {
                         'currency': 'rub',
                         'product_data': {
-                            'name': item_id,
+                            'name': item.name,
                         },
-                        'unit_amount': item_price * 100,
+                        'unit_amount': item.price * 100,
                     },
                     'quantity': item_quantity,
                 }
