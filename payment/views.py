@@ -83,8 +83,8 @@ def create_checkout_session(request, item_id=1):
             OrderElements.objects.create(
                 order=order,
                 item=item,
-                quantity=item_price,
-                price_in_order=item_quantity
+                quantity=item_quantity,
+                price_in_order=item_price
             )
             line_items.append(
                 {
@@ -99,16 +99,16 @@ def create_checkout_session(request, item_id=1):
                 }
             )
 
-    session = stripe.checkout.Session.create(
-        line_items=line_items,
-        mode='payment',
-        discounts=[{
-            'coupon': coupon_id,
-        }],
-        success_url=request.build_absolute_uri('/api/success'),
-        cancel_url=request.build_absolute_uri('/api/cancel'),
-    )
-    return JsonResponse({'sessionId': session.stripe_id})
+        session = stripe.checkout.Session.create(
+            line_items=line_items,
+            mode='payment',
+            discounts=[{
+                'coupon': coupon_id,
+            }],
+            success_url=request.build_absolute_uri('/api/success'),
+            cancel_url=request.build_absolute_uri('/api/cancel'),
+        )
+        return JsonResponse({'sessionId': session.stripe_id})
 
 
 def get_item(request, item_id):
