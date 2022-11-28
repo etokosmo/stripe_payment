@@ -12,14 +12,20 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class SuccessView(TemplateView):
+    """Template for success pay"""
     template_name = "payment/success.html"
 
 
 class CancelView(TemplateView):
+    """Template for cancel pay"""
     template_name = "payment/cancel.html"
 
 
 def create_checkout_session(request, item_id=1):
+    """Create sessionId for Stripe Pay.
+    GET: 1 item, need item_id arg in URL.
+    POST: several items, need items in body.
+    """
     if request.method == 'GET':
         item = get_object_or_404(Item, id=item_id)
         session = stripe.checkout.Session.create(
@@ -39,6 +45,7 @@ def create_checkout_session(request, item_id=1):
         )
         return JsonResponse({'sessionId': session.stripe_id})
     if request.method == 'POST':
+        # TODO create DRF serializer instead this
         products = json.loads(request.body)
         line_items = []
 
@@ -80,6 +87,7 @@ def create_checkout_session(request, item_id=1):
 
 
 def get_item(request, item_id):
+    """Render page with item=item_id"""
     item = get_object_or_404(Item, id=item_id)
 
     context = {'item': item, 'stripe_public_key': settings.STRIPE_PUBLIC_KEY}
@@ -87,6 +95,7 @@ def get_item(request, item_id):
 
 
 def get_items(request):
+    """Render page with all items from db"""
     items = Item.objects.all()
 
     context = {'items': items, 'stripe_public_key': settings.STRIPE_PUBLIC_KEY}
