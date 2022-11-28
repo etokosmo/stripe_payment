@@ -28,7 +28,7 @@
                       <img class="product-img" src="{% if item.image %}{{ item.image.url }}{% else %}{% static 'payment/image-empty.png' %}{% endif %}" alt="{{ item.id }}" onmouseover="animateImg(this)"
                       onmouseout="normalImg(this)"/>
                       <div class="card-body">
-                        <h5 class="card-title text-info bold product-name">{{ item.name }}</h5>
+                        <a href="{% url 'payment:get_item' item_id=item.id %}"><h5 class="card-title text-info bold product-name">{{ item.name }}</h5></a>
                         <p>{{ item.description }}</p>
                         <p class="card-text text-success product-price">{{ item.price }}</p>
                         <button class="btn badge badge-pill badge-secondary mt-2 float-right" type="button"
