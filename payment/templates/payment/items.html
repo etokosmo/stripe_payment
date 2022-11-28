@@ -1,41 +1,13 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="CodeHim">
-    <title>Javascript Bootstrap Shopping Cart Example</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <!-- Style CSS -->
-    <link rel="stylesheet" href="{% static 'payment/style.css' %}">
-    <script src="https://js.stripe.com/v3/"></script>
-
-  
-  </head>
-  <body>
-  
- <main>
+{% extends "payment/base.html" %}
+{% block title %}Buy items{% endblock title %}
+{% block content %}
      <div class="container">
       <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
           <h4 class="badge-pill badge-light mt-3 mb-3 p-2 text-center">Products</h4>
           <div class="row">
             {% for item in items %}
-                  <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                    <div class="shadow-sm card mb-3 product">
-                      
-                      <img class="product-img" src="{% if item.image %}{{ item.image.url }}{% else %}{% static 'payment/image-empty.png' %}{% endif %}" alt="{{ item.id }}" onmouseover="animateImg(this)"
-                      onmouseout="normalImg(this)"/>
-                      <div class="card-body">
-                        <a href="{% url 'payment:get_item' item_id=item.id %}"><h5 class="card-title text-info bold product-name">{{ item.name }}</h5></a>
-                        <p>{{ item.description }}</p>
-                        <p class="card-text text-success product-price">{{ item.price }}</p>
-                        <button class="btn badge badge-pill badge-secondary mt-2 float-right" type="button"
-                        data-action="add-to-cart" id="buy-button">Buy</button>
-                      </div>
-                    </div>
-                  </div>
+              {% block item %}{{ block.super }}{% endblock item %}
             {% endfor %} 
           </div>
         </div>
@@ -45,9 +17,9 @@
         </div>
       </div>
     </div>    
- </main>
+{% endblock content %}
  
-        
+{% block script %}   
 <script>
 let cart = [];
 let cartTotal = 0;
@@ -115,7 +87,7 @@ if (IsinCart === false) {
 
       cartTotal += parseInt(cartItemDom.querySelector(".cart_item_quantity").innerText) 
       * parseInt(cartItemDom.querySelector(".cart_item_price").innerText);
-      document.querySelector('.pay').innerText = cartTotal + " Rs.";
+      document.querySelector('.pay').innerText = cartTotal + " ₽";
 
       // increase item in cart
       cartItemDom.querySelector('[data-action="increase-item"]').addEventListener("click", () => {
@@ -123,9 +95,9 @@ if (IsinCart === false) {
           if (cartItem.name === product.name) {
             cartItemDom.querySelector(".cart_item_quantity").innerText = ++cartItem.quantity;
             cartItemDom.querySelector(".cart_item_price").innerText = parseInt(cartItem.quantity) *
-            parseInt(cartItem.price) + " Rs.";
+            parseInt(cartItem.price) + " ₽";
             cartTotal += parseInt(cartItem.price)
-            document.querySelector('.pay').innerText = cartTotal + " Rs.";
+            document.querySelector('.pay').innerText = cartTotal + " ₽";
           }
         });
       });
@@ -137,9 +109,9 @@ if (IsinCart === false) {
             if (cartItem.quantity > 1) {
               cartItemDom.querySelector(".cart_item_quantity").innerText = --cartItem.quantity;
               cartItemDom.querySelector(".cart_item_price").innerText = parseInt(cartItem.quantity) *
-              parseInt(cartItem.price) + " Rs.";
+              parseInt(cartItem.price) + " ₽";
               cartTotal -= parseInt(cartItem.price)
-              document.querySelector('.pay').innerText = cartTotal + " Rs.";
+              document.querySelector('.pay').innerText = cartTotal + " ₽";
             }
           }
         });
@@ -150,7 +122,7 @@ if (IsinCart === false) {
         cart.forEach(cartItem => {
           if (cartItem.name === product.name) {
               cartTotal -= parseInt(cartItemDom.querySelector(".cart_item_price").innerText);
-              document.querySelector('.pay').innerText = cartTotal + " Rs.";
+              document.querySelector('.pay').innerText = cartTotal + " ₽";
               cartItemDom.remove();
               cart = cart.filter(cartItem => cartItem.name !== product.name);
               addtocartbtnDom.innerText = "Add to cart";
@@ -211,6 +183,6 @@ function checkOut() {
 }
 
 </script>  
-
+{% endblock script %}
   </body>
 </html>

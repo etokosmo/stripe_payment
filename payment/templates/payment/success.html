@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Thanks for your order!</title>
-</head>
-
-<body>
-    <section>
-        <p>
-            Thanks for your order!
-        </p>
-    </section>
-</body>
-</html>
+{% extends "payment/base.html" %}
+{% block title %}Thanks for your order!{% endblock title %}
+{% block content %}
+<section>
+    <p>Thanks for your order!</p>
+</section>
+{% endblock content %}
