@@ -23,6 +23,7 @@
 <script>
 let cart = [];
 let cartTotal = 0;
+let counter = 1;
 const cartDom = document.querySelector(".cart");
 const addtocartbtnDom = document.querySelectorAll('[data-action="add-to-cart"]');
 
@@ -148,7 +149,9 @@ if (IsinCart === false) {
 
       document.querySelector('[data-action="check-out"]').addEventListener("click" , () => {
         {
-          checkOut();
+          if(counter === 1){
+            checkOut();}
+          counter += 1
         }
       });
     }
