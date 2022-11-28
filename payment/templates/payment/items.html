@@ -9,6 +9,8 @@
         <input type="text" class="form-control" onchange='lastname_eventForm(this.value)' required>
         <label class="form-label">Address</label>
         <input type="text" class="form-control" onchange='address_eventForm(this.value)' required>
+        <label class="form-label">Promocode</label>
+        <input type="text" class="form-control" onchange='promocode_eventForm(this.value)' required>
       </form>
       <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
@@ -35,6 +37,7 @@ let counter = 1;
 let customer_firstname = 'undefined';
 let customer_lastname = 'undefined';
 let customer_address = 'undefined';
+let customer_promocode = 'undefined';
 const cartDom = document.querySelector(".cart");
 const addtocartbtnDom = document.querySelectorAll('[data-action="add-to-cart"]');
 
@@ -49,7 +52,8 @@ addtocartbtnDom.forEach(addtocartbtnDom => {
       quantity: 1,
       customer_firstname: customer_firstname,
       customer_lastname: customer_lastname,
-      customer_address: customer_address
+      customer_address: customer_address,
+      customer_promocode: customer_promocode
    };
 
 const IsinCart = cart.filter(cartItem => cartItem.name === product.name).length > 0;
@@ -206,6 +210,9 @@ function lastname_eventForm(value) {
 }
 function address_eventForm(value) {
   customer_address = value;
+}
+function promocode_eventForm(value) {
+  customer_promocode = value;
 }
 </script>  
 {% endblock script %}

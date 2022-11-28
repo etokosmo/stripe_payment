@@ -1,13 +1,18 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Item, Order, OrderElements
+from .models import Item, Order, OrderElements, Promocode
 
 
 class OrderElementsInline(admin.TabularInline):
     model = OrderElements
     readonly_fields = ["price_in_order"]
     extra = 0
+
+
+@admin.register(Promocode)
+class PromocodeAdmin(admin.ModelAdmin):
+    list_display = ["title", "promocode", "discount"]
 
 
 @admin.register(Item)

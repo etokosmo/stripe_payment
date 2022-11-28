@@ -6,7 +6,7 @@ from django.http import JsonResponse, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import TemplateView
 
-from .models import Item, Order, OrderElements
+from .models import Item, Order, OrderElements, Promocode
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -66,6 +66,16 @@ def create_checkout_session(request, item_id=1):
             if customer_address:
                 order.customer_address = customer_address
                 order.save()
+            customer_promocode = product.get('customer_promocode')
+            try:
+                promocode = Promocode.objects.get(promocode=customer_promocode)
+                coupon = stripe.Coupon.create(
+                    percent_off=promocode.discount,
+                    duration="once"
+                )
+                coupon_id = coupon.get('id')
+            except Promocode.DoesNotExist:
+                coupon_id = None
             if item_id is None or item_price is None or item_quantity is None:
                 order.delete()
                 HttpResponseServerError("Incorrect format")
@@ -92,6 +102,9 @@ def create_checkout_session(request, item_id=1):
     session = stripe.checkout.Session.create(
         line_items=line_items,
         mode='payment',
+        discounts=[{
+            'coupon': coupon_id,
+        }],
         success_url=request.build_absolute_uri('/api/success'),
         cancel_url=request.build_absolute_uri('/api/cancel'),
     )

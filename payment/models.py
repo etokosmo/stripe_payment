@@ -102,3 +102,25 @@ class OrderElements(models.Model):
 
     def get_item_price(self):
         return self.item.price
+
+
+class Promocode(models.Model):
+    title = models.CharField(
+        verbose_name="Название",
+        max_length=200,
+    )
+    promocode = models.CharField(
+        verbose_name="Промокод",
+        max_length=200,
+        unique=True
+    )
+    discount = models.PositiveIntegerField(
+        verbose_name="Скидка в процентах",
+    )
+
+    class Meta:
+        verbose_name = 'Промокод'
+        verbose_name_plural = 'Промокоды'
+
+    def __str__(self):
+        return self.title
