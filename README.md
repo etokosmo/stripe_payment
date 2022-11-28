@@ -8,6 +8,15 @@ Service for creating a payment form for products.
 
 You can see this project [here](https://etokosmo.ru/api/items/).
 
+Items Example
+
+![image](https://github.com/etokosmo/stripe_payment/blob/main/images_for_readme/Buy%20items.gif)
+
+Item Example
+
+![image](https://github.com/etokosmo/stripe_payment/blob/main/images_for_readme/Buy%20item.gif)
+
+
 ## API
 
 You can send GET request to `http://<YOUR_DOMEN>/api/buy/<int:item_id>`.
