@@ -177,7 +177,6 @@ if (IsinCart === false) {
       document.querySelector('[data-action="check-out"]').addEventListener("click" , () => {
         {
           checkOut();
-          console.log(cart.length)
         }
       });
     }
@@ -195,9 +194,7 @@ function normalImg(img) {
 }
 
 function checkOut() {
-  console.log(cart)
   var jsonCart = JSON.stringify(cart);
-  console.log(jsonCart)
   var stripe = Stripe('{{ stripe_public_key }}');
 
   fetch('/api/buy', {
