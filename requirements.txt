@@ -1,3 +1,4 @@
 Django==4.1.2
 environs[django]==9.3.2
 stripe==5.0.0
+Pillow==9.3.0
