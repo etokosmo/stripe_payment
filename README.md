@@ -6,7 +6,7 @@ Service for creating a payment form for products.
 
 ## Website example
 
-You can see this project [here]().
+You can see this project [here](https://etokosmo.ru/api/items/).
 
 ## API
 
